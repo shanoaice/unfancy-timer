@@ -1,0 +1,62 @@
+{
+	"name": "unfancy-timer",
+	"version": "0.0.0",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"serve": "vite preview"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"fela": "^11.6.0",
+		"fela-preset-web": "^11.6.0",
+		"mitt": "^2.1.0",
+		"prop-types": "^15.7.2",
+		"react": "^17.0.0",
+		"react-dom": "^17.0.0",
+		"react-fela": "^11.6.0",
+		"styled-jss": "^2.2.3"
+	},
+	"devDependencies": {
+		"@vitejs/plugin-react-refresh": "^1.1.0",
+		"eslint-config-prettier": "^8.0.0",
+		"eslint-config-xo-react": "^0.24.0",
+		"eslint-plugin-prettier": "^3.3.1",
+		"eslint-plugin-react": "^7.22.0",
+		"eslint-plugin-react-hooks": "^4.2.0",
+		"husky": "^5.1.0",
+		"lint-staged": "^10.5.4",
+		"prettier": "^2.2.1",
+		"vite": "^2.0.1",
+		"xo": "^0.38.1"
+	},
+	"xo": {
+		"extends": [
+			"xo-react",
+			"plugin:prettier/recommended"
+		],
+		"rules": {
+			"unicorn/filename-case": [
+				"error",
+				{
+					"cases": {
+						"camelCase": true,
+						"pascalCase": true
+					}
+				}
+			],
+			"import/extensions": [
+				"error",
+				"never",
+				{
+					"svg": "always",
+					"css": "always"
+				}
+			],
+			"node/file-extension-in-import": 0
+		},
+		"env": [
+			"browser"
+		]
+	}
+}
