@@ -16,17 +16,6 @@ const regexp = {
 	second: /^s(econds*|ecs*)*$/i,
 }
 
-if (Notification.permission === 'default') {
-	Notification.requestPermission()
-	createSnackbar(
-		'Please grant us notification permission. It is required to notify you when time is up.',
-		{
-			position: 'right',
-			timeout: 2000,
-		}
-	)
-}
-
 const App = () => {
 	const [isInputReadonly, setInputReadonly] = useState(false)
 	const [isMiddlegroundClean, setMiddlegroundClean] = useState(true)
@@ -111,6 +100,16 @@ const App = () => {
 		((inputArray[0] * 60 + inputArray[1]) * 60 + inputArray[2]) * 1000
 
 	useEffect(() => {
+		if (Notification.permission === 'default') {
+			Notification.requestPermission()
+			createSnackbar(
+				'Please grant us notification permission. It is required to notify you when time is up.',
+				{
+					position: 'right',
+				}
+			)
+		}
+
 		backgroundAnimation.current = backgroundElement.current.animate(
 			animations.blink,
 			animationTimings.blink()
