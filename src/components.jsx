@@ -2,51 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useFela } from 'react-fela'
 
-const keyframes = {
-	middleground: () => ({
-		from: {
-			transform: 'translateX(0px)',
-			opacity: 1,
-		},
-		to: {
-			transform: 'translateX(100vw)',
-			opacity: 0.4,
-		},
-	}),
-	blink: ({ originalColor }) => ({
-		from: {
-			backgroundColor: originalColor,
-		},
-		to: {
-			backgroundColor: '#ffffff',
-		},
-	}),
-}
-
 const styles = {
-	middleground: moveAnimation => ({ isRunning, duration }) => {
-		console.log(`rule isRunning: ${isRunning}`)
-		return {
-			backgroundColor: '#1674cc',
-			zIndex: 2,
-			animationName: moveAnimation,
-			animationDuration: `${duration}s`,
-			animationTimingFunction: 'linear',
-			animationPlayState: isRunning ? 'running' : 'paused',
-			animationFillMode: 'forwards',
-		}
+	middleground: {
+		backgroundColor: '#1674cc',
+		zIndex: 2,
+		animationFillMode: 'forward',
 	},
-	background: blinkAnimation => ({ isBlinking }) => ({
+	background: {
 		backgroundColor: '#16ccc8',
 		zIndex: 1,
-		animationName: blinkAnimation,
-		animationDuration: '500ms',
-		animationIterationCount: 6,
-		animationTimingFunction: 'ease-out',
-		animationPlayState: isBlinking ? 'running' : 'paused',
-		animationDirection: 'alternate',
-		animationFillMode: 'both',
-	}),
+	},
 	foreground: {
 		display: 'flex',
 		flexDirection: 'column',
@@ -117,57 +82,30 @@ const styles = {
 	},
 }
 
-export const Middleground = ({ duration, isRunning, children }) => {
-	console.log(`component isRunning: ${isRunning}`)
-	const { css, renderer } = useFela({ isRunning, duration })
-	const middlegroundAnimation = renderer.renderKeyframe(
-		keyframes.middleground
-	)
-
+export const Middleground = React.forwardRef(({ children }, ref) => {
+	const { css } = useFela()
 	return (
-		<div
-			className={css(
-				styles.middleground(middlegroundAnimation),
-				styles.fullscreen
-			)}
-		>
+		<div ref={ref} className={css(styles.middleground, styles.fullscreen)}>
 			{children}
 		</div>
 	)
-}
+})
 
 Middleground.propTypes = {
-	duration: PropTypes.number.isRequired,
-	isRunning: PropTypes.bool.isRequired,
 	children: PropTypes.arrayOf(PropTypes.element),
 }
 
-export const Background = ({ isBlinking, blinkingAnimationEnd, children }) => {
-	const { css, renderer } = useFela({ isBlinking })
-	const backgroundBlinkAnimation = renderer.renderKeyframe(keyframes.blink, {
-		originalColor: '#16ccc8',
-	})
-
-	const onAnimationEnd = target => {
-		blinkingAnimationEnd(target)
-	}
+export const Background = React.forwardRef(({ children }, ref) => {
+	const { css } = useFela()
 
 	return (
-		<div
-			className={css(
-				styles.background(backgroundBlinkAnimation),
-				styles.fullscreen
-			)}
-			onAnimationEnd={onAnimationEnd}
-		>
+		<div ref={ref} className={css(styles.background, styles.fullscreen)}>
 			{children}
 		</div>
 	)
-}
+})
 
 Background.propTypes = {
-	isBlinking: PropTypes.bool.isRequired,
-	blinkingAnimationEnd: PropTypes.func,
 	children: PropTypes.arrayOf(PropTypes.element),
 }
 

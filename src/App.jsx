@@ -6,18 +6,20 @@ import {
 	Input,
 	ButtonGroups,
 } from './components'
+import { animations, animationTimings } from './animations'
 
 const App = () => {
-	const [isBlinking, setBlinking] = useState(false)
-	const [duration, setDuration] = useState(0)
-	const [isRunning, setRunning] = useState(false)
+	const [isInputReadonly, setInputReadonly] = useState(false)
+	const [isMiddlegroundClean, setMiddlegroundClean] = useState(true)
 	const [showStart, setShowStart] = useState(true)
 	const [showPause, setShowPause] = useState(false)
 	const [showStop, setShowStop] = useState(false)
 
-	console.log(isBlinking)
-
 	const inputElement = useRef(null)
+	const backgroundElement = useRef(null)
+	const middlegroundElement = useRef(null)
+	const backgroundAnimation = useRef(null)
+	const middlegroundAnimation = useRef(null)
 
 	const hour = useRef(0)
 	const minute = useRef(0)
@@ -46,12 +48,21 @@ const App = () => {
 	}
 
 	const calcDuration = inputArray =>
-		(inputArray[0] * 60 + inputArray[1]) * 60 + inputArray[2]
+		((inputArray[0] * 60 + inputArray[1]) * 60 + inputArray[2]) * 1000
+
+	useEffect(() => {
+		backgroundAnimation.current = backgroundElement.current.animate(
+			animations.blink,
+			animationTimings.blink()
+		)
+		backgroundAnimation.current.pause()
+	}, [])
 
 	useEffect(() => {
 		let interval
-		if (isRunning) {
+		if (isInputReadonly) {
 			interval = setInterval(() => {
+				console.log('interval set')
 				if (second.current > 0) {
 					second.current -= 1
 				} else if (minute.current > 0) {
@@ -62,8 +73,10 @@ const App = () => {
 					minute.current = 59
 					hour.current -= 1
 				} else {
-					setRunning(false)
-					setBlinking(true)
+					middlegroundAnimation.current.cancel()
+					setMiddlegroundClean(true)
+					setInputReadonly(false)
+					backgroundAnimation.current.play()
 					setShowPause(false)
 					setShowStart(true)
 					setShowStop(false)
@@ -78,7 +91,7 @@ const App = () => {
 		}
 
 		return () => clearInterval(interval)
-	}, [isRunning])
+	}, [isInputReadonly])
 
 	const clickStart = event => {
 		event.target.blur()
@@ -87,11 +100,24 @@ const App = () => {
 		setShowStop(true)
 		const input = formatInput(parseInput(inputElement.current.value))
 		const [h, m, s] = input
-		setDuration(calcDuration(input))
 		hour.current = h
 		minute.current = m
 		second.current = s
-		setRunning(true)
+		if (isMiddlegroundClean) {
+			middlegroundAnimation.current = middlegroundElement.current.animate(
+				animations.middleground,
+				animationTimings.middleground(calcDuration(input))
+			)
+			middlegroundAnimation.current.finished.then(() => {
+				middlegroundElement.current.style.transform =
+					'translateX(100vw)'
+			})
+		} else {
+			middlegroundAnimation.current.play()
+		}
+
+		setMiddlegroundClean(false)
+		setInputReadonly(true)
 	}
 
 	const clickPause = event => {
@@ -99,7 +125,8 @@ const App = () => {
 		setShowStart(true)
 		setShowPause(false)
 		setShowStop(true)
-		setRunning(false)
+		setInputReadonly(false)
+		middlegroundAnimation.current.pause()
 	}
 
 	const clickStop = event => {
@@ -110,21 +137,18 @@ const App = () => {
 		hour.current = 0
 		minute.current = 0
 		second.current = 0
-		setRunning(false)
+		middlegroundAnimation.current.cancel()
+		setMiddlegroundClean(true)
+		setInputReadonly(false)
 	}
-
-	const blinkingAnimationEnd = () => setBlinking(false)
 
 	return (
 		<>
-			<Background
-				isBlinking={isBlinking}
-				blinkingAnimationEnd={blinkingAnimationEnd}
-			/>
-			<Middleground isRunning={isRunning} duration={duration} />
+			<Background ref={backgroundElement} />
+			<Middleground ref={middlegroundElement} />
 			<Foreground>
 				<h1 style={{ color: '#fff' }}>Unfancy Timer</h1>
-				<Input ref={inputElement} readOnly={isRunning} />
+				<Input ref={inputElement} readOnly={isInputReadonly} />
 				<ButtonGroups
 					isPauseVisible={showPause}
 					isStartVisible={showStart}
