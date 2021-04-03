@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
+import { createSnackbar } from '@snackbar/core'
 import {
 	Middleground,
 	Background,
@@ -7,11 +8,23 @@ import {
 	ButtonGroups,
 } from './components'
 import { animations, animationTimings } from './animations'
+import '@snackbar/core/dist/snackbar.css'
 
 const regexp = {
 	minute: /^m(inutes*|ins*)*$/i,
 	hour: /^h(our*|rs*)*$/i,
 	second: /^s(econds*|ecs*)*$/i,
+}
+
+if (Notification.permission === 'default') {
+	Notification.requestPermission()
+	createSnackbar(
+		'Please grant us notification permission. It is required to notify you when time is up.',
+		{
+			position: 'right',
+			timeout: 2000,
+		}
+	)
 }
 
 const App = () => {
@@ -129,6 +142,10 @@ const App = () => {
 					setShowPause(false)
 					setShowStart(true)
 					setShowStop(false)
+					if (Notification.permission === 'granted') {
+						// eslint-disable-next-line no-new
+						new Notification('Timer end!')
+					}
 				}
 
 				inputElement.current.value = concatTime([

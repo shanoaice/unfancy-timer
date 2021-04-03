@@ -376,6 +376,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@snackbar/core@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "@snackbar/core@npm:1.7.0::__archiveUrl=https%3A%2F%2Fregistry.npm.taobao.org%2F%40snackbar%2Fcore%2Fdownload%2F%40snackbar%2Fcore-1.7.0.tgz"
+  checksum: 200db4f7781f670aa949e9bff57daabe226384054bea981fd36647aaf0ab617eaeefbf6076823970fbf95c92319dafa5bcd3ca77c117e0cbabb220ec48e49baa
+  languageName: node
+  linkType: hard
+
 "@szmarczak/http-timer@npm:^1.1.2":
   version: 1.1.2
   resolution: "@szmarczak/http-timer@npm:1.1.2"
@@ -7080,6 +7087,7 @@ typescript@^4.1.5:
   version: 0.0.0-use.local
   resolution: "unfancy-timer@workspace:."
   dependencies:
+    "@snackbar/core": ^1.7.0
     "@vitejs/plugin-react-refresh": ^1.1.0
     eslint-config-prettier: ^8.0.0
     eslint-config-xo-react: ^0.24.0

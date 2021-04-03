@@ -8,6 +8,7 @@
 	},
 	"license": "MIT",
 	"dependencies": {
+		"@snackbar/core": "^1.7.0",
 		"fela": "^11.6.0",
 		"fela-preset-web": "^11.6.0",
 		"mitt": "^2.1.0",
