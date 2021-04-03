@@ -8,6 +8,12 @@ import {
 } from './components'
 import { animations, animationTimings } from './animations'
 
+const regexp = {
+	minute: /^m(inutes*|ins*)*$/i,
+	hour: /^h(our*|rs*)*$/i,
+	second: /^s(econds*|ecs*)*$/i,
+}
+
 const App = () => {
 	const [isInputReadonly, setInputReadonly] = useState(false)
 	const [isMiddlegroundClean, setMiddlegroundClean] = useState(true)
@@ -29,21 +35,62 @@ const App = () => {
 		`${h === 0 ? '' : `${h} ${h === 1 ? 'hour' : 'hours'} `}${
 			m === 0 ? '' : `${m} ${m === 1 ? 'minute' : 'minutes'} `
 		}${s} ${s === 1 ? 'second' : 'seconds'}`
-	const parseInput = input =>
-		[
-			0,
-			0,
-			...input
-				.split(' ')
-				.map(x => Number.parseInt(x, 10))
-				.filter(x => !Number.isNaN(x)),
-		].slice(-3)
+	const parseInput = input => {
+		// eslint-disable-next-line unicorn/prefer-default-parameters
+		const safeInput = input || '0 seconds'
+		const inputSplited = safeInput.split(' ')
+		let hourMark
+		let minuteMark
+		let secondMark
+		let lastNumber = 0
+
+		for (let i = 0; i < inputSplited.length; i++) {
+			const current = inputSplited[i]
+			if (typeof current === 'number') {
+				lastNumber = current
+				continue
+			}
+
+			if (regexp.hour.test(current)) {
+				hourMark = i
+				continue
+			}
+
+			if (regexp.minute.test(current)) {
+				minuteMark = i
+				continue
+			}
+
+			if (regexp.second.test(current)) {
+				secondMark = i
+				continue
+			}
+		}
+
+		const hour = hourMark
+			? Number.parseInt(inputSplited[hourMark - 1], 10)
+			: 0
+		const minute = minuteMark
+			? Number.parseInt(inputSplited[minuteMark - 1], 10)
+			: 0
+		const second = secondMark
+			? Number.parseInt(inputSplited[secondMark - 1], 10)
+			: lastNumber
+		console.log(`parsed: ${hour} h ${minute} m ${second} s`)
+		return [hour, minute, second]
+	}
+
 	const formatInput = inputArray => {
 		const result = inputArray.slice()
 		result[1] += Math.floor(result[2] / 60)
+		console.log('minute now: ' + result[1])
 		result[2] %= 60
+		console.log('second now: ' + result[2])
 		result[0] += Math.floor(result[1] / 60)
+		console.log('hour now: ' + result[0])
 		result[1] %= 60
+		console.log('minute now: ' + result[1])
+		console.log(`formatted: ${result[0]} h ${result[1]} m ${result[2]} s`)
 		return result
 	}
 
@@ -62,11 +109,13 @@ const App = () => {
 		let interval
 		if (isInputReadonly) {
 			interval = setInterval(() => {
-				console.log('interval set')
+				console.log(
+					`${hour.current} h ${minute.current} m ${second.current} s remaining`
+				)
 				if (second.current > 0) {
 					second.current -= 1
 				} else if (minute.current > 0) {
-					second.currend = 59
+					second.current = 59
 					minute.current -= 1
 				} else if (hour.current > 0) {
 					second.current = 59
