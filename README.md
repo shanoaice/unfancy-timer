@@ -10,8 +10,11 @@ Its usage is very straightfoward: type in the time you desire and click start. E
 
 The time format is described as follows:
 
-The number before `h`, `hr(s)` or `hour(s)` will be considered as the number of hours of the countdown, `m`, `min(s)`, or `minute(s)` will be for minutes, etc.
+The number before `h`, `hr(s)` or `hour(s)` will be considered as the number of hours of the countdown, `m`, `min(s)`, or `minute(s)` will be for minutes, `s`, `sec(s)`, or `second(s)` will be for seconds.
 
+## Build
+
+For building instructions, please see [BUILD.md](./BUILD.md).
 ## License
 
 MIT, Andy Chen 2021~present
