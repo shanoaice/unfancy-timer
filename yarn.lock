@@ -5574,6 +5574,13 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"preact@npm:^10.5.13":
+  version: 10.5.13
+  resolution: "preact@npm:10.5.13::__archiveUrl=https%3A%2F%2Fregistry.npm.taobao.org%2Fpreact%2Fdownload%2Fpreact-10.5.13.tgz"
+  checksum: 9433cd19eb7497b60920301fea52e17a815fbf501f2c52f46b2a51609d456a95978ee4457b717c2e3dc19b9fc177c1bf73ef29be7cedc2b6632a08165c5d1af3
+  languageName: node
+  linkType: hard
+
 "prelude-ls@npm:^1.2.1":
   version: 1.2.1
   resolution: "prelude-ls@npm:1.2.1"
@@ -7099,6 +7106,7 @@ typescript@^4.1.5:
     husky: ^5.1.0
     lint-staged: ^10.5.4
     mitt: ^2.1.0
+    preact: ^10.5.13
     prettier: ^2.2.1
     prop-types: ^15.7.2
     react: ^17.0.0
