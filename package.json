@@ -9,15 +9,11 @@
 	"license": "MIT",
 	"dependencies": {
 		"@snackbar/core": "^1.7.0",
-		"fela": "^11.6.0",
+		"fela": "^11.6.1",
 		"fela-preset-web": "^11.6.0",
-		"mitt": "^2.1.0",
 		"preact": "^10.5.13",
 		"prop-types": "^15.7.2",
-		"react": "^17.0.0",
-		"react-dom": "^17.0.0",
-		"react-fela": "^11.6.0",
-		"styled-jss": "^2.2.3"
+		"react-fela": "^11.6.0"
 	},
 	"devDependencies": {
 		"@vitejs/plugin-react-refresh": "^1.1.0",
