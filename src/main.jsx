@@ -1,5 +1,5 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+// @jsx h
+import { h, render } from 'preact'
 import { createRenderer } from 'fela'
 import plugins from 'fela-preset-web'
 import { RendererProvider } from 'react-fela'
@@ -12,11 +12,9 @@ const felaRenderer = createRenderer({
 	devMode: process.env.NODE_ENV !== 'PRODUCTION',
 })
 
-ReactDOM.render(
-	<React.StrictMode>
-		<RendererProvider renderer={felaRenderer}>
-			<App />
-		</RendererProvider>
-	</React.StrictMode>,
+render(
+	<RendererProvider renderer={felaRenderer}>
+		<App />
+	</RendererProvider>,
 	document.querySelector('#root')
 )

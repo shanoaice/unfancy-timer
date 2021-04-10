@@ -13,7 +13,8 @@
 		"fela-preset-web": "^11.6.0",
 		"preact": "^10.5.13",
 		"prop-types": "^15.7.2",
-		"react-fela": "^11.6.0"
+		"react-fela": "^11.6.0",
+		"tauri": "^0.14.1"
 	},
 	"devDependencies": {
 		"@vitejs/plugin-react-refresh": "^1.1.0",

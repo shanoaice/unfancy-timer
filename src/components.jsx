@@ -1,4 +1,6 @@
-import React from 'react'
+// @jsx h
+import { h } from 'preact'
+import { forwardRef } from 'preact/compat'
 import PropTypes from 'prop-types'
 import { useFela } from 'react-fela'
 
@@ -82,7 +84,7 @@ const styles = {
 	},
 }
 
-export const Middleground = React.forwardRef(({ children }, ref) => {
+export const Middleground = forwardRef(({ children }, ref) => {
 	const { css } = useFela()
 	return (
 		<div ref={ref} className={css(styles.middleground, styles.fullscreen)}>
@@ -95,7 +97,7 @@ Middleground.propTypes = {
 	children: PropTypes.arrayOf(PropTypes.element),
 }
 
-export const Background = React.forwardRef(({ children }, ref) => {
+export const Background = forwardRef(({ children }, ref) => {
 	const { css } = useFela()
 
 	return (
@@ -122,7 +124,7 @@ Foreground.propTypes = {
 	children: PropTypes.arrayOf(PropTypes.element),
 }
 
-export const Input = React.forwardRef((props, ref) => {
+export const Input = forwardRef((props, ref) => {
 	const { css } = useFela()
 	return <input ref={ref} className={css(styles.input)} {...props} />
 })

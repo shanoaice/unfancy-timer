@@ -1,4 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react'
+// @jsx h
+import { useState, useRef, useEffect } from 'preact/hooks'
+import { h, Fragment } from 'preact'
 import { createSnackbar } from '@snackbar/core'
 import {
 	Middleground,
